@@ -1,0 +1,58 @@
+Guilain Huyghues-Despointes
+	I am using two of my free days for this assignment
+
+List of submitted source code
+	phunt.cpp
+	makefile
+
+Created a program which:
+	Takes and parses inputs in the wanted format
+	Parses a configuration file to get all the blacklist rules inside
+	Every 5 seconds it acquires all the data of live processes
+	With that data it compares the process data with the rules to decide whether to act on that process
+	Either kills, suspends, or nice any violating processes
+	Logs any action into a log file
+
+Code and code Layout:
+	Its all found in 1 file
+	Relevant methods are kept near each other.
+
+	Input are stored in a struct with:
+		log file location 	l
+		conf file location 	c
+		deamonize value	 	d   (Doesn't do anything, didn't do extra credit)
+
+	Blacklist rules are stored as Commands in the form of:
+		action	(kill, suspend, or nice) decide how to deal with the program
+		type		(user, path, or mem) what to check to see if violating
+		param		the parameter to check for, changes based on type
+
+	Process data is stored as ProcData:
+		ID		The process ID
+		user 	user of the process by name
+		path	the path of the process
+		size 	the ammount of mem being used
+
+	This is how the code flows:
+
+	Setup:
+		Input is parsed
+		Blacklist requirements are parsed and stored
+		Logfile is set up to print values
+
+	Loop:
+		Get all the procs in /proc/
+		Get the size, user, and path of each of those procs and save them
+		Now for each proc apply each command until is done or no commands are relevant.
+		Log any activity that is done to processes
+		Then repeat every 5 seconds
+
+General comments and descisions made:
+	I am using 2 of my free days.
+
+	When trying to kill a process, i check to see if the program is killed in 2 ways. This is to check cheaply whether the files exists at all. Later it more expensivly checks the actual state of the process. Its redudant but i didn't want it to spin infinitly because the process exists but its dead or a zombie.
+	There are wanrnings when compiling but they can be ignored	
+
+Number of Hours spent and effort level:
+	Around 8 and medium effort
+	Mostly straightforward after talking to you, but some hurdles to get through. Mostly involves researching where data is located and how to properlly access it.
